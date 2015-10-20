@@ -94,7 +94,7 @@ public class CustomRealm extends AuthorizingRealm {
 
 		//将activeUser设置simpleAuthenticationInfo
 		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
-				activeUser, password, this.getName());
+				activeUser, password,ByteSource.Util.bytes(salt), this.getName());
 
 		return simpleAuthenticationInfo;
 	}
@@ -127,14 +127,6 @@ public class CustomRealm extends AuthorizingRealm {
 			}
 		}
 		
-		
-	/*	List<String> permissions = new ArrayList<String>();
-		permissions.add("user:create");//用户的创建
-		permissions.add("item:query");//商品查询权限
-		permissions.add("item:add");//商品添加权限
-		permissions.add("item:edit");//商品修改权限
-*/		//....
-		
 		//查到权限数据，返回授权信息(要包括 上边的permissions)
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 		//将上边查询到授权信息填充到simpleAuthorizationInfo对象中
@@ -143,7 +135,7 @@ public class CustomRealm extends AuthorizingRealm {
 		return simpleAuthorizationInfo;
 	}
 	
-	//清除缓存
+	//========================================清除缓存=====================================================
 	public void clearCached() {
 		PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
 		super.clearCache(principals);

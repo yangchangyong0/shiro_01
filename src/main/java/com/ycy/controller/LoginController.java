@@ -53,15 +53,19 @@ public class LoginController {
 	@RequestMapping("/login")
 	public  String login(HttpServletRequest request)throws Exception{
 		//如果登录失败从request中获取认证异常信息，shrioLoginFailure就是shiro异常类的全限定名
-		String exceptionClassName=request.getParameter("shiroLoginFailure");
+		String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
 		//根据shrio返回的异常路径判断，抛出指定异常信息
 		if (exceptionClassName!=null){
 			if(UnknownAccountException.class.getName().equals(exceptionClassName)){
 				//抛出异常
 				throw new CustomException("账户不存在");
-			}
-		}else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)){
+			}else if(IncorrectCredentialsException.class.getName().equals(exceptionClassName)){
 				throw new CustomException("用户名/密码错误");
+			}else if("randomCodeError".equals(exceptionClassName)){
+				throw new CustomException("验证码错误");
+			} else {
+				throw new Exception("未知错误");
+			}
 		}
 		return "login";
 	}

@@ -4,6 +4,7 @@ package com.ycy.controller;
 import com.ycy.dto.ItemsCustom;
 import com.ycy.dto.ItemsCustomVo;
 import com.ycy.service.ItemsService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,7 @@ public class ItemController {
      * @throws Exception
      */
     @RequestMapping("/queryItems")
+    @RequiresPermissions("item:query")//表示必须拥有“item:query”权限方可执行。
     public ModelAndView queryItems(javax.servlet.http.HttpServletRequest httpServletRequest,
                                    javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception {
         //如果是转发：httpServletRequest的数据是可以共享的
@@ -69,6 +71,7 @@ public class ItemController {
      * @throws Exception
      */
     @RequestMapping("/editItems")
+    @RequiresPermissions("item:update")
     public ModelAndView editItems(@RequestParam(value="id", required=true,defaultValue = "") Integer id ) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         ItemsCustom itemsCustom = itemsService.getItemsById(id);
@@ -116,6 +119,7 @@ public class ItemController {
      * @return
      */
     @RequestMapping("/editItemSubmit")
+    @RequiresPermissions("item:update")
     public String editItemSubmit(Integer id,@ModelAttribute(value="itemsCustom") ItemsCustom itemsCustom, MultipartFile pictureFile
     ) throws Exception {
 //

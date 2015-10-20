@@ -41,11 +41,12 @@
 
 	//初始化验证码
 	$(document).ready(function(){
-		randomcode_refresh();
+		//randomcode_refresh();
 	});
 	//刷新验证码
 	function randomcode_refresh(){
-		document.getElementById("randomcode_img").src="${baseurl}pages/jsp/validatecode.jsp";
+
+		$("#randomcode_img").attr("src","${baseurl}pages/jsp/validatecode.jsp?" + Date());
 	}
 </SCRIPT>
 
@@ -78,14 +79,19 @@
 							<TD><input type="password" id="pwd" name="password" style="WIDTH: 130px" />
 							</TD>
 						</TR>
-				<%--		<TR>
+						<TR>
 							<TD>验证码：</TD>
 							<TD><input id="randomcode" name="randomcode" size="8" /> <img
 								id="randomcode_img"  alt=""
-								width="56" height="20" align='absMiddle' onclick="randomcode_refresh()"/> <a
-								href=javascript:randomcode_refresh()>刷新</a></TD>
-						</TR>--%>
-
+								width="56" height="20" align='absMiddle' src="${baseurl}pages/jsp/validatecode.jsp" /> <a
+							href="javascript:void(0)"  onclick="randomcode_refresh()" >刷新</a></TD>
+						</TR>
+						<TR>
+							<TD></TD>
+							<TD>
+								<input type="checkbox" name="rememberMe" />自动登陆
+							</TD>
+						</TR>
 						<TR>
 							<TD colSpan="2" align="center"><input type="button"
 								class="btnalink" onclick="loginsubmit()" value="登&nbsp;&nbsp;录" />
